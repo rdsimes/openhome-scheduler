@@ -1,6 +1,9 @@
 var express = require('express');
 var app = express();
 
+app.set('views', './views');
+app.set('view engine', 'handlebars');
+
 app.get('/', function(req, res){
   res.send('Hello World');
 });
