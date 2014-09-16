@@ -40,7 +40,6 @@ app.get('/', oa_controller.auth, watchlist.watchlist, function(req, res, next) {
 	res.render('index', {
 		title: 'Hello World!' ,		watchlist: req.trademe.watchlist.List
 	});
-	console.log(req.trademe.watchlist.List);
 });
 
 // ### Callback route
