@@ -4,7 +4,6 @@ var express = require('express'),
 	cookieParser = require('cookie-parser');
 var session = require('express-session');
 
-var config = require('./config.json');
 
 var oa_controller = require('./controllers/oauth'),
 	watchlist = require('./controllers/watchlist');
@@ -12,12 +11,23 @@ var oa_controller = require('./controllers/oauth'),
 
 var app = express();
 
+
+if(!process.env.PORT){
+    var config = require('./config.json');
+    app.set('oauth consumer key', config.key);
+    app.set('oauth consumer secret', config.secret);
+
+} else {
+    app.set('oauth consumer key', process.env.oauthkey);
+    app.set('oauth consumer secret', process.env.oauthsecret);
+
+}
+
+
 app.set('views', './views');
 app.set('view engine', 'handlebars');
 app.set('oauth callback', '/callback');
 
-app.set('oauth consumer key', config.key);
-app.set('oauth consumer secret', config.secret);
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.use(cookieParser());
