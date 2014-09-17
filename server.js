@@ -13,30 +13,29 @@ var app = express();
 
 
 if(!process.env.PORT){
+    //dev
     var config = require('./config.json');
     app.set('oauth consumer key', config.key);
     app.set('oauth consumer secret', config.secret);
-
-    app.set('app domain', 'http://localhost');
+    app.set('app domain', 'http://localhost:3000');
 
 } else {
+    //windows azure
     app.set('oauth consumer key', process.env.oauthkey);
     app.set('oauth consumer secret', process.env.oauthsecret);
     app.set('app domain', 'http://openhomescheduler.azurewebsites.net');
 
 }
 
-
 app.set('views', './views');
 app.set('view engine', 'handlebars');
 app.set('oauth callback', '/callback');
-
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.use(cookieParser());
 app.use(session({
 	key: 'trademe-demo.sid',
-	secret: 'uber cool and ultra awesome secret session keyword'	
+	secret: 'a really great secret message that is neat'
 }));
 
 app.use(express.static(__dirname + '/public'));
