@@ -3,8 +3,8 @@ var express = require('express'),
 	exphbs  = require('express-handlebars'),
 	cookieParser = require('cookie-parser'),
     session = require('express-session'),
-    oa_controller = require('./controllers/oauth'),
-	watchlist = require('./controllers/watchlist');
+    oa_controller = require('./middlewares/oauth'),
+	watchlist = require('./middlewares/watchlist');
 
 var app = express();
 
