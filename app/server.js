@@ -1,4 +1,5 @@
 var express = require('express'),
+    home = require('./routes/home.js'),
 	exphbs  = require('express-handlebars'),
 	cookieParser = require('cookie-parser');
 var session = require('express-session');
@@ -35,12 +36,7 @@ oa_controller.initialize(app.set('oauth consumer key'), app.set('oauth consumer 
 
 // ## Routes
 // ### Main (and only) route
-app.get('/', oa_controller.auth, watchlist.watchlist, function(req, res, next) {
-	
-	res.render('index', {
-		title: 'Hello World!' ,		watchlist: req.trademe.watchlist.List
-	});
-});
+app.get('/', oa_controller.auth, watchlist.watchlist, home.index);
 
 // ### Callback route
 // Will only be used after OAuth login.
