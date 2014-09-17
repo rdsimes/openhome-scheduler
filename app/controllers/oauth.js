@@ -13,7 +13,7 @@ exports.initialize = function(consumer_key, consumer_secret, callback_url) {
 	oa = new OAuth(request_token_url, access_token_url, consumer_key, consumer_secret, oauth_version, callback_url, oauth_encryption);
 }
 
-// Middleware to detect if the client is or not authenticated to Twitter
+// Middleware to detect if the client is or not authenticated to Trade Me
 // if not, start the OAuth process; if so, just let the normal flow continue
 exports.auth = function(req, res, next) {
 	if (req.session.oauth && req.session.oauth.access_token && req.session.oauth.access_token_secret) {

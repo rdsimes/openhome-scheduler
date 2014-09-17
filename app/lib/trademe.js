@@ -7,8 +7,8 @@ function ApiClient(){
     this.oauth = new OAuth.OAuth(
         'https://secure.tmsandbox.co.nz/Oauth/RequestToken',
         'https://secure.tmsandbox.co.nz/Oauth/AccessToken',
-        '4E3C3DA86700F8FE76BC05AF846D9334',
-        '759285290B43C99812E91B70E20C8665',
+        '????',
+        '????',
         '1.0',
         null,
         'HMAC-SHA1'
