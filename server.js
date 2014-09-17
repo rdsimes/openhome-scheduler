@@ -17,12 +17,11 @@ if (process.env.PORT) {
 
 } else {
     //dev
-    var config = require('./app/config.json');
+    var config = require('./config.json');
     app.set('oauth consumer key', config.key);
     app.set('oauth consumer secret', config.secret);
     app.set('app domain', 'http://localhost:3000');
     app.set('api domain', 'tmsandbox.co.nz');
-
 }
 
 app.set('views', './views');
