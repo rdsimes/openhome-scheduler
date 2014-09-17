@@ -18,12 +18,10 @@ if(!process.env.PORT){
     app.set('oauth consumer secret', config.secret);
 
     app.set('app domain', 'http://localhost');
-    app.set('app port', 3000);
 
 } else {
     app.set('oauth consumer key', process.env.oauthkey);
     app.set('oauth consumer secret', process.env.oauthsecret);
-    app.set('app port', process.env.PORT);
     app.set('app domain', 'http://openhomescheduler.azurewebsites.net');
 
 }
@@ -45,7 +43,7 @@ app.use(express.static(__dirname + '/public'));
 
 
 
-oa_controller.initialize(app.set('oauth consumer key'), app.set('oauth consumer secret'), app.set('app domain') + ':' + app.set('app port') + app.set('oauth callback'));
+oa_controller.initialize(app.set('oauth consumer key'), app.set('oauth consumer secret'), app.set('app domain') + app.set('oauth callback'));
 
 // ## Routes
 // ### Main (and only) route
@@ -58,7 +56,7 @@ app.get('/callback', oa_controller.callback('/'));
 // ### Start Express
 var start = function(port){
     return app.listen(port, function() {
-        console.log('Express server listening on port %d in %s mode', app.get('app port'), app.settings.env);
+        console.log('Express server listening on port %d in %s mode', port, app.settings.env);
     });
 };
-var server = start(app.get('app port'));
+var server = start(process.env.PORT || 3000);
