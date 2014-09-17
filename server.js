@@ -1,30 +1,25 @@
 var express = require('express'),
     home = require('./routes/home.js'),
 	exphbs  = require('express-handlebars'),
-	cookieParser = require('cookie-parser');
-var session = require('express-session');
-
-
-var oa_controller = require('./controllers/oauth'),
+	cookieParser = require('cookie-parser'),
+    session = require('express-session'),
+    oa_controller = require('./controllers/oauth'),
 	watchlist = require('./controllers/watchlist');
-
 
 var app = express();
 
-
-if(!process.env.PORT){
-    //dev
-    var config = require('./app/config.json');
-    app.set('oauth consumer key', config.key);
-    app.set('oauth consumer secret', config.secret);
-    app.set('app domain', 'http://localhost:3000');
-
-} else {
+if (process.env.PORT) {
     //windows azure
     app.set('oauth consumer key', process.env.oauthkey);
     app.set('oauth consumer secret', process.env.oauthsecret);
     app.set('app domain', 'http://openhomescheduler.azurewebsites.net');
 
+} else {
+    //dev
+    var config = require('./app/config.json');
+    app.set('oauth consumer key', config.key);
+    app.set('oauth consumer secret', config.secret);
+    app.set('app domain', 'http://localhost:3000');
 }
 
 app.set('views', './views');
@@ -39,8 +34,6 @@ app.use(session({
 }));
 
 app.use(express.static(__dirname + '/public'));
-
-
 
 oa_controller.initialize(app.set('oauth consumer key'), app.set('oauth consumer secret'), app.set('app domain') + app.set('oauth callback'));
 
