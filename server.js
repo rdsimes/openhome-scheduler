@@ -58,7 +58,7 @@ app.get('/callback', oa_controller.callback('/'));
 // ### Start Express
 var start = function(port){
     return app.listen(port, function() {
-        console.log('Express server listening on port %d in %s mode', app.set('app port'), app.settings.env);
+        console.log('Express server listening on port %d in %s mode', app.get('app port'), app.settings.env);
     });
 };
-var server = start(app.set('app port'));
+var server = start(app.get('app port'));
