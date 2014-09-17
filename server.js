@@ -14,7 +14,7 @@ var app = express();
 
 if(!process.env.PORT){
     //dev
-    var config = require('./config.json');
+    var config = require('./app/config.json');
     app.set('oauth consumer key', config.key);
     app.set('oauth consumer secret', config.secret);
     app.set('app domain', 'http://localhost:3000');
