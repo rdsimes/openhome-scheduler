@@ -13,13 +13,16 @@ if (process.env.PORT) {
     app.set('oauth consumer key', process.env.oauthkey);
     app.set('oauth consumer secret', process.env.oauthsecret);
     app.set('app domain', 'http://openhomescheduler.azurewebsites.net');
+    app.set('api domain', process.env.apidomain || 'tmsandbox.co.nz');
 
 } else {
     //dev
-    var config = require('./app/config.json');
+    var config = require('./config.json');
     app.set('oauth consumer key', config.key);
     app.set('oauth consumer secret', config.secret);
     app.set('app domain', 'http://localhost:3000');
+    app.set('api domain', 'tmsandbox.co.nz');
+
 }
 
 app.set('views', './views');
@@ -35,7 +38,12 @@ app.use(session({
 
 app.use(express.static(__dirname + '/public'));
 
-oa_controller.initialize(app.set('oauth consumer key'), app.set('oauth consumer secret'), app.set('app domain') + app.set('oauth callback'));
+oa_controller.initialize(
+    app.set('oauth consumer key'),
+    app.set('oauth consumer secret'),
+    app.set('app domain') + app.set('oauth callback'),
+    app.set('api domain'));
+
 
 // ## Routes
 // ### Main (and only) route

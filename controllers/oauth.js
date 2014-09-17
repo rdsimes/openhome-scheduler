@@ -2,15 +2,17 @@
 // http://moonlitscript.com/post.cfm/how-to-use-oauth-and-twitter-in-your-node-js-expressjs-app/
 
 var OAuth = require('oauth').OAuth,
-	request_token_url = 'https://secure.tmsandbox.co.nz/Oauth/RequestToken?scope=MyTradeMeRead',
-	access_token_url = 'https://secure.tmsandbox.co.nz/Oauth/AccessToken ',
 	oauth_version = '1.0',
 	oauth_encryption = 'HMAC-SHA1',
-	oa = null;
+	oa = null, domain = null;
+
 
 // Initialize OAuth object
-exports.initialize = function(consumer_key, consumer_secret, callback_url) {
-	oa = new OAuth(request_token_url, access_token_url, consumer_key, consumer_secret, oauth_version, callback_url, oauth_encryption);
+exports.initialize = function(consumer_key, consumer_secret, callback_url, api_domain) {
+    domain = api_domain;
+    var request_token_url = 'https://secure.' + domain +'/Oauth/RequestToken?scope=MyTradeMeRead',
+        access_token_url = 'https://secure.' + domain +'/Oauth/AccessToken ';
+    oa = new OAuth(request_token_url, access_token_url, consumer_key, consumer_secret, oauth_version, callback_url, oauth_encryption);
 }
 
 // Middleware to detect if the client is or not authenticated to Trade Me
@@ -21,13 +23,13 @@ exports.auth = function(req, res, next) {
 	} else {
 		oa.getOAuthRequestToken(function(error, oauth_token, oauth_token_secret, results) {
 			if (error) {
-				res.send('yeah no. didn\'t work.');
+				res.send('Something went wrong!');
 				throw error;
 			} else {
 				req.session.oauth = {};
 				req.session.oauth.token = oauth_token;
 				req.session.oauth.token_secret = oauth_token_secret;
-				res.redirect('https://secure.tmsandbox.co.nz/Oauth/Authorize?oauth_token=' + oauth_token);
+				res.redirect('https://secure.' + domain +'/Oauth/Authorize?oauth_token=' + oauth_token);
 			}
 		});
 	}
@@ -40,7 +42,7 @@ exports.callback = function(redirect) {
 			req.session.oauth.verifier = req.query.oauth_verifier;
 			var oauth = req.session.oauth;
 
-			oa.getOAuthAccessToken(oauth.token, oauth.token_secret, oauth.verifier, function(error, oauth_access_token, oauth_access_token_secret, results) {
+			oa.getOAuthAccessToken(oauth.token, oauth.token_secret, oauth.verifier, function(error, oauth_access_token, oauth_access_token_secret) {
 				if (error) {
 					res.send('yeah something broke.');
 				} else {
