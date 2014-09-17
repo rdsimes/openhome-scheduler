@@ -1,7 +1,5 @@
 var index = function(req, res) {
-    res.render('index', {
-        title: 'Hello World!', watchlist: req.trademe.watchlist.List
-    })
+    res.render('home', { watchlist: req.trademe.watchlist.List })
 };
 
 exports.index = index;
