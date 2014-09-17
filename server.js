@@ -17,7 +17,7 @@ if (process.env.PORT) {
 
 } else {
     //dev
-    var config = require('./config.json');
+    var config = require('./app/config.json');
     app.set('oauth consumer key', config.key);
     app.set('oauth consumer secret', config.secret);
     app.set('app domain', 'http://localhost:3000');
@@ -52,6 +52,19 @@ app.get('/', oa_controller.auth, watchlist.watchlist, home.index);
 // ### Callback route
 // Will only be used after OAuth login.
 app.get('/callback', oa_controller.callback('/'));
+
+// ### Middleware to handle 404
+var notFound = function(req,res,next){
+    res.statusCode = 404;
+    res.description = 'Not found';
+    res.render('404');
+};
+// ### Middleware to internal server errors
+var errorHandler = function(err,req,res,next){
+    res.render('error',{description:'Please check the URL.'});
+};
+app.use(notFound);
+app.use(errorHandler);
 
 // ### Start Express
 var start = function(port){
