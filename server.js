@@ -23,7 +23,7 @@ if(!process.env.PORT){
 } else {
     app.set('oauth consumer key', process.env.oauthkey);
     app.set('oauth consumer secret', process.env.oauthsecret);
-
+    app.set('app port', process.env.PORT);
     app.set('app domain', 'http://openhomescheduler.azurewebsites.net');
 
 }
@@ -61,8 +61,4 @@ var start = function(port){
         console.log('Express server listening on port %d in %s mode', app.set('app port'), app.settings.env);
     });
 };
-var server = start(process.env.PORT || app.set('app port'));
-
-
-module.exports = start;
-
+var server = start(app.set('app port'));
