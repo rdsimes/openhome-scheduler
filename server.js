@@ -9,7 +9,7 @@ var express = require('express'),
 var app = express();
 
 if (process.env.PORT) {
-    //windows azure
+    //windows azure/production
     app.set('oauth consumer key', process.env.oauthkey);
     app.set('oauth consumer secret', process.env.oauthsecret);
     app.set('app domain', 'http://openhomescheduler.azurewebsites.net');

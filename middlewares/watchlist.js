@@ -10,7 +10,7 @@ exports.watchlist = function(req, res, next) {
 		token: req.session.oauth.access_token,
 		token_secret: req.session.oauth.access_token_secret
 	},
-url = 'https://api.tmsandbox.co.nz/v1/MyTradeMe/Watchlist.json';
+url = 'https://api.' + req.app.set('api domain') + '/v1/MyTradeMe/Watchlist.json';
 
 	request.get({
 		url: url,
