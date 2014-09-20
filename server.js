@@ -4,7 +4,8 @@ var express = require('express'),
 	cookieParser = require('cookie-parser'),
     session = require('express-session'),
     oa_controller = require('./middlewares/oauth'),
-	watchlist = require('./middlewares/watchlist');
+	watchlist = require('./middlewares/watchlist'),
+    openhome = require('./middlewares/openhomewatchlist');
 
 var app = express();
 
@@ -46,7 +47,10 @@ oa_controller.initialize(
 
 // ## Routes
 // ### Main (and only) route
-app.get('/', oa_controller.auth, watchlist.watchlist, home.index);
+app.get('/', oa_controller.auth, openhome.watchlist, home.index);
+
+// ### Watchlist route
+app.get('/watchlist', oa_controller.auth, watchlist.watchlist, home.index);
 
 // ### Callback route
 // Will only be used after OAuth login.
